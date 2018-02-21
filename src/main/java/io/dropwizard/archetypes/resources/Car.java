@@ -12,20 +12,73 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-@Path("/cars")
+@Path("/rent")
 public class Car
 {
     @GET
-    @Path("/car")
+    @Path("/car/{cars}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getCars() throws SQLException {
-        MySQL mysql = new MySQL();
-        List<String> list = mysql.getCars();
+    public String getCars(@PathParam("cars")String cars) throws SQLException
+    {
+        System.out.println(cars);
+       List <String> list = new MySQL().getCars(cars);
 
 
         boolean b = false;
 
-        String result = "ajaxRequest({\"brand\":[";
+        String result = "getCars({\"cars\":[";
+        for (String temp : list) {
+            if (b == true) {
+                result += ',';
+            } else
+                b = true;
+            result += "\"" + temp + "\"";
+
+        }
+        result += "]})";
+        return result;
+
+
+    }
+
+    @GET
+    @Path("/city/{city}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getCity(@PathParam("city")String city) throws SQLException
+    {
+
+        List <String> list = new MySQL().getCity(city);
+
+
+        boolean b = false;
+
+        String result = "getCity({\"city\":[";
+        for (String temp : list) {
+            if (b == true) {
+                result += ',';
+            } else
+                b = true;
+            result += "\"" + temp + "\"";
+
+        }
+        result += "]})";
+        return result;
+
+
+    }
+
+    @GET
+    @Path("/decity/{city}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getDeliverCity(@PathParam("city")String decity) throws SQLException
+    {
+
+        List <String> list = new MySQL().getDeCity(decity);
+
+
+        boolean b = false;
+
+        String result = "getDeCity({\"decity\":[";
         for (String temp : list) {
             if (b == true) {
                 result += ',';
@@ -42,28 +95,7 @@ public class Car
 
 
 
-    @GET
-    @Path("/cars/{brand}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String setCar(@PathParam("brand") String brand) throws SQLException {
-        System.out.println(brand);
-        List<String> list = Collections.singletonList(new MySQL().setCar(brand));
 
-
-        boolean c = false;
-
-        String result = "getCar({\"name\":[";
-        for (String temp : list) {
-            if (c == true) {
-                result += ',';
-            } else
-                c = true;
-            result += "\"" + temp + "\"";
-
-        }
-        result += "]})";
-        return result;
-    }
 
 
 
