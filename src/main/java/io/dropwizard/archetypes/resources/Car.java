@@ -1,12 +1,10 @@
 package io.dropwizard.archetypes.resources;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.archetypes.db.MySQL;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -15,6 +13,7 @@ import java.util.List;
 @Path("/rent")
 public class Car
 {
+
     @GET
     @Path("/car/{cars}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -47,7 +46,7 @@ public class Car
     public String getCity(@PathParam("city")String city) throws SQLException
     {
 
-        List <String> list = new MySQL().getCity(city);
+        List <String> list = Collections.singletonList(new MySQL().setCity(city));
 
 
         boolean b = false;
@@ -74,7 +73,7 @@ public class Car
     {
 
         List <String> list = new MySQL().getDeCity(decity);
-
+        System.out.println(decity);
 
         boolean b = false;
 
@@ -92,6 +91,28 @@ public class Car
 
 
     }
+
+
+    @GET
+
+    @Path("/info{firstname}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getInfo(@PathParam ("firstname")String firstname) throws SQLException
+    {
+        System.out.println(firstname);
+
+        String result = "getDeCity({\"decity\":[";
+        result += "]})";
+        return result;
+
+
+
+
+
+
+    }
+
+
 
 
 

@@ -1,5 +1,7 @@
 package io.dropwizard.archetypes.db;
 
+import io.dropwizard.archetypes.resources.Car;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,4 +98,37 @@ public class MySQL {
         return list;
 
     }
+
+    public String setCity(String city)
+    {
+        List <String> list = new ArrayList<>();
+        try
+        {
+
+            Class.forName(driver).newInstance();
+
+            conn = DriverManager.getConnection(url, userName, password);
+            String query = "INSERT into orders(PickPlace) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(query);
+           ps.setString(1,city);
+
+        int rowInserted = ps.executeUpdate();
+        if(rowInserted > 0 )
+            System.out.println("WAS ADDED");
+            System.out.println(city);
+
+        } catch (Exception ex)
+        {
+            System.out.println("Error: " + ex.getMessage());
+        }
+
+
+        return city;
+
+        }
+
+
+
+
+
 }
